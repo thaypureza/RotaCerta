@@ -3,13 +3,16 @@ import {motoristasService} from '../service/motoristas.service.js'
 
 const route = express.Router ()
 
-route.get("/motoristas", (req, res) => {
-    const data = motoristasService.getAll()
-    res.json(data)
+route.get("/", (req, res) => {
+    try {
+        const motoristas = motoristasService.getAll()
+        res.json(motoristas)
+    } catch (error) {
+        res.status(500).json({message: "Erro ao buscar motoristas"})
     }
-)
+})
 
-route.get("/motoristas/:id", (req, res) => {
+route.get("/:id", (req, res) => {
     const {id} = req.params
     const motorista = motoristasService.getById(id)
     if (!motorista) {
